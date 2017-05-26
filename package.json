@@ -1,0 +1,24 @@
+{
+  "name": "function-lite-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "tape": "^4.6.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jboxman/function-lite-js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jboxman/function-lite-js/issues"
+  },
+  "homepage": "https://github.com/jboxman/function-lite-js#readme"
+}
