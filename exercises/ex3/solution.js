@@ -19,3 +19,14 @@ function mult(x,y,z) {
 	return x * y * z;
 }
 
+function rMulti(...args) {
+    if(args.length <= 2) {
+        return args[0] * args[1];
+    }
+    // Multiply the first item by the return value of the recursive call
+    // Call rMulti recursively with args with the first item sliced off
+    return args[0] * rMulti(...args.slice(1));
+}
+
+let output = rMulti(2, 3, 2);
+console.log(output);

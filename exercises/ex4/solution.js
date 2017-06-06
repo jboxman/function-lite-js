@@ -7,12 +7,24 @@ const test = require('tape');
 # called.
 */
 
+function num1() {
+    return 10;
+}
+
+function num2() {
+    return 7;
+}
+
 /*
 #
 # 2. Write an `add(..)` function that takes two numbers and adds them and
 # returns the result. Call `add(..)` with the results of your two functions from
 # (1) and print the result to the console.
 */
+
+function add(a, b) {
+    return a + b;
+}
 
 /*
 #
@@ -21,12 +33,33 @@ const test = require('tape');
 # you did in (2) above.
 */
 
+// Don't repeat yourself
+function add2(fn1, fn2) {
+    return add(fn1(), fn2());
+}
+
+test('should sum return value of num1 and num2', t => {
+    t.equal(add2(num1, num2), 17);
+    t.end();
+});
+
 /*
 #
 # 4. Replace your two functions from (1) with a single function that takes a
 # value and returns a function back, where the returned function will return the
 # value when it's called.
 */
+
+function num(number) {
+    return () => number;
+}
+
+test('num should return a fn closing over number', t => {
+    const two = num(2);
+    t.equal(two(), 2);
+    t.notEqual(num(3)(), 2);
+    t.end();
+});
 
 /*
 #
@@ -35,6 +68,48 @@ const test = require('tape');
 # a loop (recursion). Try it with built-in array functional helpers
 # (map/reduce).
 */
+
+function addnFor(...args) {
+    let sum = 0;
+    for(let fn of args) {
+        sum = add2(num(sum), fn);
+    }
+    return sum;
+}
+
+function addnRecursive(...args) {
+    if(args.length <= 2) {
+        return add2(args[0], args[1]);
+    }
+    return add2(args[0], num(addnRecursive(...args.slice(1))));
+}
+
+// As described by Simpson, the goal is to create a final function that
+// defers the actual calculation until the end.
+function addnMapReduce(...args) {
+    // Can do args.slice(1).reduce(..., args[0]) to skip num(0) no-op
+    return args.reduce((prev, cur) => () => add2(prev, cur), num(0))();
+}
+
+test('add array of fns returning nums', t => {
+
+    t.test('using for of', t => {
+        t.equal(addnFor(num(5), num(3), num(50)), 58);
+        t.end();
+    });
+
+    t.test('using recursion', t => {
+        t.equal(addnRecursive(num(5), num(3), num(50), num(7)), 65);
+        t.end();
+    });
+
+    t.test('using map reduce', t => {
+        t.equal(addnMapReduce(num(5), num(3), num(50), num(7)), 65);
+        t.end();
+    });
+
+    t.end();
+});
 
 /*
 #
@@ -57,3 +132,5 @@ const test = require('tape');
 #
 # 9. Bonus: write tests for your functions.
 */
+
+
