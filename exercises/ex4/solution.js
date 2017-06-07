@@ -117,6 +117,20 @@ test('add array of fns returning nums', t => {
 # trim it down to only have unique values.
 */
 
+test('trip to uniq', t => {
+    const vals = [1, 3, 5, 7, 7, 9, 2, 2, 4, 4, 6, 10];
+
+    const isOdd = (x) => x % 2 == 1;
+    const isEven = (y) => !isOdd(y);
+
+    const arr = vals.filter(isEven).map(num);
+
+    console.log(arr);
+    t.end();
+});
+
+//addnMapReduce(....map(num));
+
 /*
 #
 # 7. Filter your array to only have even numbers in it.
